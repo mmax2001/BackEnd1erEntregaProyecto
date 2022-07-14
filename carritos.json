@@ -1,0 +1,14 @@
+{
+   "productos": {
+      "nombre": "Calculadora",
+      "descripcion": "Calc. Cientifica",
+      "codigo": 124,
+      "fotoURL": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png",
+      "precio": 234.56,
+      "stock": 20,
+      "id": 2,
+      "timeStamp": "13/7/2022 01:50:20"
+   },
+   "id": 1,
+   "timeStamp": "14/7/2022 17:19:07"
+}

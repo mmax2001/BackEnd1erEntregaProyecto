@@ -1,0 +1,17 @@
+{{!-- main.hbs --}}
+<body class="text-center container py-5 back-grey m-6">    
+
+        <!-- Cards productos -->
+        {{#if resultado}}
+            {{>cardProduct}}
+                {{ else }}
+                    <div class="back-yellow m-5">
+                        <h2 class="alert alert-danger">{{this.alertMessage}}</h2>
+                    </div>        
+        {{/if}}
+        <a href="/">
+            <button class="btn btn-primary">Volver al formulario</button>
+        </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
