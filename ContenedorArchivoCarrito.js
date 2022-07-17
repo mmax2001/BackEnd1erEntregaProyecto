@@ -1,21 +1,21 @@
 const { timeStamp } = require('console');
 const fs = require('fs');
-//Declaro la clase Contenedor con los metodos requeridos
-
+//Declaro la clase ContenedorArchivo con los metodos requeridos
+//para manipular elementos dentro del array carritos
 
 class ContenedorArchivo{
     constructor(fileName){
         this.rutaArchivo=`${fileName}.json`;
-        this.productos=[];
+        this.carritos=[];
     }
 
     async leerArchivoAsync() {
         //const fs = require('fs');
         try {
             let contenido = await fs.promises.readFile(this.rutaArchivo,'utf-8');
-            this.productos=contenido;
-            //console.log(this.productos);
-            return this.productos;
+            this.carritos=contenido;
+            //console.log(this.carritos);
+            return this.carritos;
         }
         catch(err){
            const productsArray = []
@@ -31,12 +31,12 @@ class ContenedorArchivo{
             await this.leerArchivoAsync();
             let newID;
             let products=[];
-            if (this.productos.length === 0) {
+            if (this.carritos.length === 0) {
                 newID=1; //sin usar uuidV4
                 const objToAdd = {...newObject,id:newID,timeStamp:time};  
                 products.push(objToAdd);  
             } else {
-                products=JSON.parse(this.productos||'{}');
+                products=JSON.parse(this.carritos||'{}');
                 console.log("Esto tiene el JSON", products)
                 const productIndex = products.findIndex((product) => product.id == newObject.id);
                 console.log("EL NRO ES",productIndex)
@@ -60,30 +60,27 @@ class ContenedorArchivo{
     async update(newProd,ID){
         try{
             await this.leerArchivoAsync();
-            let contenidoCart=JSON.parse(this.productos||'{}');
-            console.log("EL CONTENIDO DEL ARCHIVO DE CARRITOS ES",contenidoCart.productos)
-            const prodToUpdate=contenidoCart.find(carrito=>carrito.id==ID)
-            console.log("ESTO DEVUELVE",prodToUpdate);
-            
-            if (prodToUpdate!=undefined){
-                prodToUpdate.productos={...prodToUpdate.prodcutos,...newProd,}
-                await fs.promises.writeFile(this.rutaArchivo, JSON.stringify(prodToUpdate,null,3)) //null para no reemplazar el contenido y 3 por el espacio entre lineas
-                return prodToUpdate
+            let contenidoDeCarritos=JSON.parse(this.carritos||'{}');
+            //console.log("EL CONTENIDO DEL ARCHIVO DE CARRITOS ES",contenidoDeCarritos)
+            const CarritoParaActualizar=contenidoDeCarritos.find(carrito=>carrito.id==ID)
+            //console.log("ESTO TIENE EL CARRITO BUSCADO",CarritoParaActualizar);
+            //console.log("EL ID DEL PRODUCTO A ACTUALIZAR ES",newProd.id)
+
+            if (CarritoParaActualizar!=undefined){                
+                newProd.timeStamp=new Date().toLocaleString();
+                let prodToUpdateIndex=CarritoParaActualizar.productos.findIndex(carrito=>carrito.id==newProd.id)
+                if (prodToUpdateIndex != -1){
+                    CarritoParaActualizar.productos[prodToUpdateIndex]=newProd
+                }else{
+                    CarritoParaActualizar.productos.push(newProd);
+                }                
+                await fs.promises.writeFile(this.rutaArchivo, JSON.stringify(contenidoDeCarritos,null,3)) //null para no reemplazar el contenido y 3 por el espacio entre lineas
+                return newProd
             } 
             else{
                 return null;
             }
 
-            // if(productos.length>0){
-            //     const productIndex = productos.findIndex((product) => product.id == ID);
-            //     if (productIndex === -1) return { error: true };
-            //     productos[productIndex] = {...productos[productIndex],...newProd,}; //copie el producto en esa posicion y le paso la nueva info
-            //     await fs.promises.writeFile(this.rutaArchivo, JSON.stringify(productos,null,3)) //null para no reemplazar el contenido y 3 por el espacio entre lineas
-            //     return productos[productIndex]
-            // }
-            // else{
-            //     return null;
-            // }
         } catch (error) {
             console.log(error)    
         }
@@ -93,12 +90,12 @@ class ContenedorArchivo{
 
         try{
             await this.leerArchivoAsync();
-            let productos=JSON.parse(this.productos||'{}');
-            if(productos.length>0){                     
-                const prodToFind=productos.filter(producto=>producto.id==ID);                
-                if(prodToFind.length){
-                    console.log("EL CONTENIDO ES DE getById ES",prodToFind);
-                    return prodToFind;
+            let carritos=JSON.parse(this.carritos||'{}');
+            if(carritos.length>0){                     
+                const carritoBuscado=carritos.filter(carrito=>carrito.id==ID);                
+                if(carritoBuscado.length){
+                    console.log("EL CONTENIDO DE getById ES",carritoBuscado);
+                    return carritoBuscado;
                 }
                 else{
                     return null;
@@ -115,7 +112,7 @@ class ContenedorArchivo{
 
         try {
             await this.leerArchivoAsync();
-            return JSON.parse(this.productos||'{}');    
+            return JSON.parse(this.carritos||'{}');    
         } 
         catch (error) {
            console.log(error)  
@@ -123,27 +120,31 @@ class ContenedorArchivo{
         
     }
 
-    async deleteById(ID){
+    async deleteById(IDcarrito,IDproducto){
         
         try{
             await this.leerArchivoAsync();
-            let products=JSON.parse(this.productos||'{}');     
-            const indexOfID=products.findIndex(producto=>{return producto.id==ID});
-            console.log(indexOfID);
-            if(indexOfID!=-1) {
-                const prodToFind=products.filter(producto=>producto.id!=ID);
-                await fs.promises.writeFile(this.rutaArchivo, JSON.stringify(prodToFind))
-                console.log(`Se borro exitosamente el producto con id : ${ID}`)
-                return ID;
+            let contenidoDeCarritos=JSON.parse(this.carritos||'{}');
+            if(contenidoDeCarritos.length>0){                     
+                const CarritoParaActualizar=contenidoDeCarritos.find(carrito=>carrito.id==IDcarrito);
+                if(CarritoParaActualizar!=undefined){
+                    let productosAdejar=CarritoParaActualizar.productos.filter(producto=>producto.id!=IDproducto);                                    
+                    if(productosAdejar.length==CarritoParaActualizar.productos.length){
+                        return null;
+                    }else{
+                        CarritoParaActualizar.productos=productosAdejar;
+                        await fs.promises.writeFile(this.rutaArchivo, JSON.stringify(contenidoDeCarritos,null,3)) //null para no reemplazar el contenido y 3 por el espacio entre lineas
+                        return productosAdejar
+                    }
+                }else{
+                    return null;
+                }
             }
-            else{
-                 console.log("No se encuentra el ID");
-                 return null;
-            }
-        }
-        catch (error){
-            console.log(error)
-        }    
+            return null  
+        } 
+        catch (error) {
+            console.log(error)    
+        }  
 
     }
 
@@ -182,9 +183,9 @@ module.exports = ContenedorArchivo
 
 //     //Pruebo la lectura del archivo
 //     await testContenedor.leerArchivoAsync();
-//     console.log("El contenido del archivo es : ", testContenedor.productos);
+//     console.log("El contenido del archivo es : ", testContenedor.carritos);
 
-//     //Pruebo obtener todos los productos
+//     //Pruebo obtener todos los carritos
 //     let contentFile = await testContenedor.getAll();
 //     console.log("Los elementos del archivo son : ",contentFile);
 
@@ -200,7 +201,7 @@ module.exports = ContenedorArchivo
 //     let deleteProdByID=await testContenedor.deleteById(3);
 //     console.log(deleteProdByID);
 
-//     // //Pruebo borrar todos los productos del archivo
+//     // //Pruebo borrar todos los carritos del archivo
 //     let resultDelete= await testContenedor.deleteAll();
 //     console.log(resultDelete);
 

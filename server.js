@@ -220,8 +220,8 @@ router.get('/carrito/:id/productos',async (req, res)=> {
     try{
         let id = parseInt(req.params.id)
         const listado=await ContenedorCarritos.getById(id);
-        res.send({result:'Este es el contenido del carrito con ID:',id,listado})        
-        
+        //res.send({result:'Este es el contenido del carrito con ID:',id,listado})        
+        res.send({result:`Estos son los productos del carrito con ID:#${id} y productos:${listado}`})
     } catch (error) {
         res.send(error)
     }
@@ -234,14 +234,14 @@ router.post('/carrito/:id/productos',async (req, res)=> {
     try{
         const id = parseInt(req.params.id)
         const productoPOST = req.body;
-        console.log("EL PARAMETRO ID ES",id)
+        console.log("EL PARAMETRO ID DE CARRITO ES",id)
         console.log("EL PARAMETRO DE ID DEL PRODUCTO ES",productoPOST.id)
         const producto = await ContenedorProductos.getById(productoPOST.id);
         console.log("ESTE ES EL PRODUCTO A AGREGAR",producto[0])
         // let cart = await ContenedorCarritos.getById(id);
         // console.log("ESTO TIENE CART",cart[0].productos)
-        const updatedCart = await ContenedorCarritos.update(producto[0],id);
-        res.send(updatedCart)
+        const prodToAdd = await ContenedorCarritos.update(producto[0],id);
+        res.send(prodToAdd)
     } catch (error) {
         res.send(error)
     }
@@ -252,10 +252,16 @@ router.post('/carrito/:id/productos',async (req, res)=> {
 //para eliminar un producto por su id y por su id de carrito
 router.delete('/carrito/:id/productos/:id_prod',async (req, res)=> {
     try {
-        const { carritoID, productoID } = req.params;
-        const cart = await ContenedorCarritos.getById(id);
-        const idProdDelete=await cart.productos.deleteById(productoID)
-        res.json({result:`Se borro exitosamente el producto con id :${idProdDelete}`})     
+        const { id, id_prod } = req.params;
+        console.log(id,id_prod)
+        const carritoBuscado = await ContenedorCarritos.getById(id);
+        console.log("EL CARRITO A PROCESAR ES ",carritoBuscado)
+        const prodDelete=await ContenedorCarritos.deleteById(id,id_prod)
+        if(prodDelete!=null){
+            res.json({result:`Se borro exitosamente del carrito con ID:${id},el producto con id:${id_prod}`})     
+        }else{
+            res.json({result:`No se encontro el producto buscado con ese id: #${id_prod}`})
+        }
     } catch (error) {
         res.send(error)
     }
