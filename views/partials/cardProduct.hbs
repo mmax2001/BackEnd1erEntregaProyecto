@@ -1,0 +1,43 @@
+{{!--cardMultiple--}}
+<!-- Cards tienda -->
+    <section>        
+            <h1 class="mt-4 mb-5">{{this.title}}</h1>
+            <article class="row">
+                {{#each resultado}}
+                    <div class="col-lg-4 col-md-12 mb-4 mx-auto">
+                            <div class="card1">
+                                <img id="image{{this.id}}" src="{{this.fotoURL}}" class="card-img-top images" alt="cable cpu pcie">
+                                <div class="card-body">
+                                    <h4 class="card-title">{{this.nombre}}</h4>
+                                    <p class="card-text">{{this.descripcion}}</p>
+                                    <p class="card-text"> Cod. art.#{{this.codigo}}</p>
+                                    <section class="card-body">
+                                        <!-- Divider -->
+                                        <hr>
+                                        <!-- Price -->
+                                        <h6 class="mb-0">
+                                            <span class="text-danger mr-1">{{this.price}}</span>
+                                            <span class="text-grey"><s>{{this.price}}</s></span>
+                                        </h6>
+                                        <div>
+                                            <!-- range field -->
+                                            <form id="form{{this.id}}">
+                                                <p style="margin-top: 10px;">Cantidad</p>
+                                                <input type="range" name="amountRange" min="0" max="20" value="0" size="3" oninput="this.form.amountInput.value=this.value" />
+                                                <input data-qId="{{this.id}}" id="quantityBtn{{this.id}}" type="number" name="amountInput" min="0" max="20" value="0" oninput="this.form.amountRange.value=this.value" />
+                                            </form>
+                                            <!-- buttons -->
+                                            <button data-id="{{this.id}}" id="sendBtn{{this.id}}" type="button" class="btn btn-primary btn-sm mr-1 my-2"><i class="fa fa-shopping-cart pr-2"></i>Agregar al carrito</button>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                    </div>
+                {{/each}}
+            </article>
+            <br>
+    </section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+

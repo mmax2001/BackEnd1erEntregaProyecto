@@ -1,0 +1,65 @@
+[
+   {
+      "productos": [
+         {
+            "nombre": "Calculadora",
+            "descripcion": "Calc. Cientifica",
+            "codigo": 124,
+            "fotoURL": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png",
+            "precio": 234.56,
+            "stock": 20,
+            "id": 2,
+            "timeStamp": "17/7/2022 14:17:26"
+         }
+      ],
+      "id": 1,
+      "timeStamp": "16/7/2022 23:45:36"
+   },
+   {
+      "productos": [],
+      "id": 2,
+      "timeStamp": "16/7/2022 23:45:38"
+   },
+   {
+      "productos": [
+         {
+            "nombre": "Calculadora",
+            "descripcion": "Calc. Cientifica",
+            "codigo": 124,
+            "fotoURL": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png",
+            "precio": 234.56,
+            "stock": 20,
+            "id": 2,
+            "timeStamp": "17/7/2022 14:41:46"
+         }
+      ],
+      "id": 3,
+      "timeStamp": "16/7/2022 23:45:39"
+   },
+   {
+      "productos": [],
+      "id": 4,
+      "timeStamp": "16/7/2022 23:45:40"
+   },
+   {
+      "productos": [
+         {
+            "nombre": "Escuadra",
+            "descripcion": "Esc 45 grados",
+            "codigo": 123,
+            "fotoURL": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
+            "precio": 123.45,
+            "stock": 20,
+            "id": 1,
+            "timeStamp": "16/7/2022 23:46:11"
+         }
+      ],
+      "id": 5,
+      "timeStamp": "16/7/2022 23:45:41"
+   },
+   {
+      "productos": [],
+      "id": 6,
+      "timeStamp": "17/7/2022 14:34:26"
+   }
+]

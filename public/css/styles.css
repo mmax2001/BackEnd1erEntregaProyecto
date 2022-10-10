@@ -1,0 +1,30 @@
+.back-grey {
+    background-color: #E9ECEF;
+}
+
+.back-yellow {
+    background-color: #FFF3CD;
+}
+
+.images {
+    max-width: 40px;
+    max-height: 40px;
+}
+
+.contenedorServicios {
+    margin-top: 20px;
+}
+
+.card-body {
+    padding: 0.25rem;
+}
+
+.card1 {
+    background-image: linear-gradient(62deg, #eef2f3 0%, #8e9eab 100%);
+    border-radius: 10px;
+    border: none;
+    padding: 20px;
+    align-items: center;
+    position: relative;
+    margin-bottom: 70px;
+}
